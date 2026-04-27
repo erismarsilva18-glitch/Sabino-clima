@@ -1,15 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sabino Clima</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="font-family: Arial; text-align:center; padding:30px;">
-  <h1>❄️ Sabino Clima</h1>
-  <p>Gestão de serviços de ar condicionado</p>
+<meta charset="UTF-8">
+<title>Sabino Clima</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.json">
 
-  <button onclick="alert('Abrir Agenda')" style="padding:15px; margin:10px;">Agenda</button>
-  <button onclick="alert('Clientes')" style="padding:15px; margin:10px;">Clientes</button>
-  <button onclick="alert('Financeiro')" style="padding:15px; margin:10px;">Financeiro</button>
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+  background:#f4f6f9;
+}
+
+header {
+  background:#0a1f44;
+  color:white;
+  padding:20px;
+  text-align:center;
+  font-size:22px;
+}
+
+.container {
+  padding:15px;
+}
+
+.card {
+  background:white;
+  padding:20px;
+  margin-bottom:15px;
+  border-radius:12px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+
+.button {
+  width:100%;
+  padding:15px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#0a1f44;
+  color:white;
+  font-size:16px;
+}
+
+.button.green {
+  background:#28a745;
+}
+</style>
+</head>
+
+<body>
+
+<header>❄️ Sabino Clima</header>
+
+<div class="container">
+
+<div class="card">
+  <h3>Painel</h3>
+  <p>Bem-vindo ao seu sistema</p>
+</div>
+
+<div class="card">
+  <button class="button" onclick="mostrar('servicos')">📅 Serviços</button>
+  <button class="button" onclick="mostrar('clientes')">👤 Clientes</button>
+  <button class="button green" onclick="mostrar('financeiro')">💰 Financeiro</button>
+</div>
+
+<div id="conteudo" class="card"></div>
+
+</div>
+
+<script>
+function mostrar(tela){
+  if(tela == 'servicos'){
+    document.getElementById('conteudo').innerHTML = "Lista de Serviços";
+  }
+  if(tela == 'clientes'){
+    document.getElementById('conteudo').innerHTML = "Lista de Clientes";
+  }
+  if(tela == 'financeiro'){
+    document.getElementById('conteudo').innerHTML = "Controle Financeiro";
+  }
+}
+</script>
+
 </body>
 </html>
