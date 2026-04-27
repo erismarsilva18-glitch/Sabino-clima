@@ -1,62 +1,149 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
-<button>Agendar Serviço</button>
-<h1>Sabino Clima Pro</h1>
-<p>Soluções em Ar Condicionado</p>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sabino Clima Pro</title>
+
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #0f172a;
-  color: white;
+  margin:0;
+  font-family: Arial;
+  background:#0f172a;
+  color:white;
 }
 
 header {
-  background: #0ea5e9;
-  padding: 15px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
+  background:#0ea5e9;
+  padding:15px;
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
 }
 
-button {
-  background: #22c55e;
-  border: none;
-  padding: 12px;
-  width: 100%;
-  color: white;
-  font-size: 16px;
-  border-radius: 10px;
-  margin-top: 10px;
+.container {
+  padding:15px;
 }
 
 .card {
-  background: #1e293b;
-  padding: 15px;
-  margin: 10px;
-  border-radius: 10px;
+  background:#1e293b;
+  padding:15px;
+  margin-bottom:10px;
+  border-radius:10px;
+}
+
+input {
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border-radius:8px;
+  border:none;
+}
+
+button {
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#22c55e;
+  color:white;
+  font-size:16px;
+}
+
+.lista {
+  background:#334155;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
 }
 </style>
-  <header>Sabino Clima Pro</header>
+</head>
 
+<body>
+
+<header>❄️ Sabino Clima Pro</header>
+
+<div class="container">
+
+<!-- CADASTRO CLIENTE -->
 <div class="card">
-  <h2>Agendamentos</h2>
-  <button>Novo Atendimento</button>
+  <h3>👤 Cadastro de Cliente</h3>
+  <input id="nome" placeholder="Nome">
+  <input id="telefone" placeholder="Telefone">
+  <button onclick="salvarCliente()">Salvar Cliente</button>
 </div>
 
+<!-- AGENDAR SERVIÇO -->
 <div class="card">
-  <h2>Clientes</h2>
-  <button>Adicionar Cliente</button>
+  <h3>📅 Agendar Serviço</h3>
+  <input id="clienteServico" placeholder="Nome do cliente">
+  <input id="data" type="date">
+  <input id="descricao" placeholder="Descrição do serviço">
+  <button onclick="salvarServico()">Salvar Serviço</button>
 </div>
 
+<!-- LISTA -->
 <div class="card">
-  <h2>Serviços</h2>
-  <button>Ver Serviços</button>
+  <h3>📋 Serviços</h3>
+  <div id="listaServicos"></div>
 </div>
 
-<div class="card">
-  <h2>Financeiro</h2>
-  <button>Ver Relatório</button>
 </div>
-<a href="https://wa.me/5519989454387">
-  <button>Falar com Cliente</button>
-</a>
+
+<script>
+let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+let servicos = JSON.parse(localStorage.getItem('servicos')) || [];
+
+function salvarCliente(){
+  let nome = document.getElementById('nome').value;
+  let telefone = document.getElementById('telefone').value;
+
+  if(nome == '') return alert('Digite o nome');
+
+  clientes.push({nome, telefone});
+  localStorage.setItem('clientes', JSON.stringify(clientes));
+
+  alert('Cliente salvo!');
+}
+
+function salvarServico(){
+  let cliente = document.getElementById('clienteServico').value;
+  let data = document.getElementById('data').value;
+  let descricao = document.getElementById('descricao').value;
+
+  if(cliente == '') return alert('Digite o cliente');
+
+  servicos.push({cliente, data, descricao});
+  localStorage.setItem('servicos', JSON.stringify(servicos));
+
+  mostrarServicos();
+}
+
+function mostrarServicos(){
+  let lista = document.getElementById('listaServicos');
+  lista.innerHTML = '';
+
+  servicos.forEach((s, i) => {
+    lista.innerHTML += `
+      <div class="lista">
+        <b>${s.cliente}</b><br>
+        ${s.data}<br>
+        ${s.descricao}
+        <button onclick="enviarWhats(${i})">WhatsApp</button>
+      </div>
+    `;
+  });
+}
+
+function enviarWhats(i){
+  let s = servicos[i];
+  let msg = `Serviço:\nCliente: ${s.cliente}\nData: ${s.data}\nDesc: ${s.descricao}`;
+  window.open(`https://wa.me/5519989454387?text=${encodeURIComponent(msg)}`);
+}
+
+mostrarServicos();
+</script>
+
+</body>
+</html>
